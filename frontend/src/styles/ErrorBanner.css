@@ -1,0 +1,47 @@
+.error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(248,81,73,0.08);
+  border: 1px solid rgba(248,81,73,0.3);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+}
+
+.error-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.error-body {
+  flex: 1;
+}
+
+.error-body strong {
+  display: block;
+  font-size: 0.88rem;
+  color: #f85149;
+  margin-bottom: 4px;
+}
+
+.error-body p {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.error-dismiss {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 2px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.error-dismiss:hover {
+  color: var(--text-primary);
+}
