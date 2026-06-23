@@ -281,3 +281,5 @@ Health check endpoint.
 **Indo-Gangetic plain (Punjab/UP):**
 - Rainfall: 700, Humidity: 60%, pH: 7.0, Soil: Loamy
 - Expected top results: Wheat, Maize, Soybean
+
+https://crop-fit-78yz.vercel.app/
