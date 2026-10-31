@@ -24,10 +24,11 @@ function App() {
       const data = await getRecommendations(inputs);
       setResults(data);
     } catch (err) {
+      console.error('Submission error:', err);
       const msg =
         err?.response?.data?.details
           ? err.response.data.details.map((d) => d.message).join('; ')
-          : err?.response?.data?.error || 'Failed to connect to the server. Is the backend running?';
+          : err?.response?.data?.error || err?.message || 'Failed to connect to the backend server.';
       setError(msg);
     } finally {
       setLoading(false);
@@ -40,30 +41,40 @@ function App() {
     setFormData(null);
   };
 
+  const hasOutput = !!results;
+
   return (
     <div className="app">
       <Header />
       <main className="main-content">
-        {!results && !loading && <HeroSection />}
+        {!hasOutput && !loading && <HeroSection />}
 
-        <div className={`layout ${results ? 'layout--results' : 'layout--form'}`}>
+        <div className={`layout ${hasOutput ? 'layout--results' : 'layout--form'}`}>
           <section className="form-section">
-            <InputForm onSubmit={handleSubmit} onReset={handleReset} loading={loading} hasResults={!!results} />
+            <InputForm
+              onSubmit={handleSubmit}
+              onReset={handleReset}
+              loading={loading}
+              hasResults={hasOutput}
+            />
           </section>
 
           <section className="output-section">
-            {loading && <LoadingSpinner />}
+            {loading && <LoadingSpinner text="Synthesizing agronomic data via LLM..." />}
             {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
-            {results && !loading && (
-              <ResultsPanel results={results} inputs={formData} />
+            {hasOutput && !loading && (
+              <ResultsPanel
+                results={results}
+                inputs={formData}
+              />
             )}
           </section>
         </div>
       </main>
 
       <footer className="footer">
-        <p>🌾 CropFit — Algorithmic Crop Recommendation Engine</p>
-        <p className="footer-sub">Built with React · Node.js · Express · PostgreSQL</p>
+        <p>🌾 CropFit — Algorithmic & AI Crop Recommendation Engine</p>
+        <p className="footer-sub">Built with React · Node.js · Express · PostgreSQL (pgvector)</p>
       </footer>
     </div>
   );

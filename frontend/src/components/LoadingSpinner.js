@@ -1,11 +1,11 @@
 import React from 'react';
 import '../styles/LoadingSpinner.css';
 
-const LoadingSpinner = () => (
+const LoadingSpinner = ({ text = 'Synthesizing agronomic data via LLM...' }) => (
   <div className="loading-wrap">
     <div className="loading-spinner" />
-    <p className="loading-text">Running scoring engine…</p>
-    <p className="loading-sub">Evaluating {12} crop profiles against your climate matrix</p>
+    <p className="loading-text">{text}</p>
+    <p className="loading-sub">Retrieving pgvector guidelines & querying Llama-3.3-70B via Groq</p>
   </div>
 );
 

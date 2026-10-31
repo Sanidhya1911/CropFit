@@ -5,8 +5,56 @@ const SOIL_TEXTURES = ['Sandy', 'Loamy', 'Clayey', 'Silty', 'Sandy Loam', 'Clay 
 
 const FIELD_CONFIG = [
   {
+    name: 'n',
+    label: 'Nitrogen (N)',
+    unit: 'kg/ha',
+    icon: '🌱',
+    min: 0,
+    max: 300,
+    step: 5,
+    placeholder: 'e.g. 90',
+    hint: 'Available soil nitrogen in kg per hectare',
+    example: 'Rice: 80–120 | Wheat: 100–150 | Maize: 120–180',
+  },
+  {
+    name: 'p',
+    label: 'Phosphorus (P)',
+    unit: 'kg/ha',
+    icon: '🌾',
+    min: 0,
+    max: 200,
+    step: 5,
+    placeholder: 'e.g. 50',
+    hint: 'Available soil phosphorus in kg per hectare',
+    example: 'Low: <30 | Optimal: 40–70 | High: >80',
+  },
+  {
+    name: 'k',
+    label: 'Potassium (K)',
+    unit: 'kg/ha',
+    icon: '🍂',
+    min: 0,
+    max: 300,
+    step: 5,
+    placeholder: 'e.g. 50',
+    hint: 'Available soil potassium in kg per hectare',
+    example: 'Low: <30 | Optimal: 40–60 | High: >80',
+  },
+  {
+    name: 'ph',
+    label: 'Soil pH',
+    unit: 'pH',
+    icon: '🧪',
+    min: 0,
+    max: 14,
+    step: 0.1,
+    placeholder: 'e.g. 6.5',
+    hint: 'Soil acidity/alkalinity (7.0 = neutral)',
+    example: 'Acidic: <6.0 | Neutral: 6.0–7.0 | Alkaline: >7.5',
+  },
+  {
     name: 'rainfall',
-    label: 'Annual Rainfall',
+    label: 'Annual Rainfall / Moisture',
     unit: 'mm',
     icon: '🌧️',
     min: 0,
@@ -28,22 +76,18 @@ const FIELD_CONFIG = [
     hint: 'Average annual relative humidity percentage',
     example: 'Dry: 20–40% | Moderate: 40–70% | Humid: 70–90%',
   },
-  {
-    name: 'ph',
-    label: 'Soil pH',
-    unit: 'pH',
-    icon: '🧪',
-    min: 0,
-    max: 14,
-    step: 0.1,
-    placeholder: 'e.g. 6.5',
-    hint: 'Soil acidity/alkalinity (7.0 = neutral)',
-    example: 'Acidic: <6.0 | Neutral: 6–7 | Alkaline: >7.5',
-  },
 ];
 
 const InputForm = ({ onSubmit, onReset, loading, hasResults }) => {
-  const [values, setValues] = useState({ rainfall: '', humidity: '', ph: '', soilTexture: '' });
+  const [values, setValues] = useState({
+    n: '90',
+    p: '50',
+    k: '50',
+    ph: '6.5',
+    rainfall: '800',
+    humidity: '65',
+    soilTexture: 'Loamy',
+  });
   const [touched, setTouched] = useState({});
 
   const handleChange = (e) => {
@@ -57,25 +101,39 @@ const InputForm = ({ onSubmit, onReset, loading, hasResults }) => {
     if (name === 'soilTexture') return SOIL_TEXTURES.includes(val);
     const cfg = FIELD_CONFIG.find((f) => f.name === name);
     if (!cfg) return false;
-    const n = parseFloat(val);
-    return !isNaN(n) && n >= cfg.min && n <= cfg.max;
+    const num = parseFloat(val);
+    return !isNaN(num) && num >= cfg.min && num <= cfg.max;
   };
 
-  const allValid = ['rainfall', 'humidity', 'ph', 'soilTexture'].every((k) => isValid(k, values[k]));
+  const allValid = ['n', 'p', 'k', 'ph', 'rainfall', 'humidity', 'soilTexture'].every(
+    (k) => isValid(k, values[k])
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!allValid) return;
     onSubmit({
+      n: parseFloat(values.n),
+      p: parseFloat(values.p),
+      k: parseFloat(values.k),
+      ph: parseFloat(values.ph),
       rainfall: parseFloat(values.rainfall),
       humidity: parseFloat(values.humidity),
-      ph: parseFloat(values.ph),
+      moisture: parseFloat(values.humidity),
       soilTexture: values.soilTexture,
     });
   };
 
   const handleReset = () => {
-    setValues({ rainfall: '', humidity: '', ph: '', soilTexture: '' });
+    setValues({
+      n: '90',
+      p: '50',
+      k: '50',
+      ph: '6.5',
+      rainfall: '800',
+      humidity: '65',
+      soilTexture: 'Loamy',
+    });
     setTouched({});
     onReset();
   };
@@ -83,8 +141,8 @@ const InputForm = ({ onSubmit, onReset, loading, hasResults }) => {
   return (
     <div className="form-card">
       <div className="form-card-header">
-        <h2 className="form-title">Field Conditions</h2>
-        <p className="form-subtitle">Enter your environment data to analyze crop compatibility</p>
+        <h2 className="form-title">Soil & Climate Parameters</h2>
+        <p className="form-subtitle">Enter your NPK and field metrics for LLM synthesis & compatibility ranking</p>
       </div>
 
       <form className="input-form" onSubmit={handleSubmit} noValidate>
@@ -162,10 +220,10 @@ const InputForm = ({ onSubmit, onReset, loading, hasResults }) => {
             {loading ? (
               <>
                 <span className="btn-spinner" />
-                Analyzing…
+                Synthesizing agronomic data via LLM...
               </>
             ) : (
-              <>🔬 Analyze Crop Fit</>
+              <>🔬 Analyze Crop Fit & Run AI</>
             )}
           </button>
           {hasResults && (

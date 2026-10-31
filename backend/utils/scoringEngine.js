@@ -21,11 +21,15 @@ const WEIGHTS = {
  * Returns a value in [0, 1] — 1.0 = perfect center, 0 = at/beyond edge of range.
  */
 function scoreVariable(input, min, max) {
-  if (input < min || input > max) return 0; // Hard fail — outside tolerance range
-  const mid = (max + min) / 2;
-  const delta = (max - min) / 2;
+  const numInput = parseFloat(input);
+  const numMin = parseFloat(min);
+  const numMax = parseFloat(max);
+  if (isNaN(numInput) || isNaN(numMin) || isNaN(numMax)) return 0;
+  if (numInput < numMin || numInput > numMax) return 0; // Hard fail — outside tolerance range
+  const mid = (numMax + numMin) / 2;
+  const delta = (numMax - numMin) / 2;
   if (delta === 0) return 1; // Single-point range
-  const score = 1 - Math.abs(input - mid) / delta;
+  const score = 1 - Math.abs(numInput - mid) / delta;
   return Math.max(0, Math.min(1, score));
 }
 
@@ -111,11 +115,10 @@ function runScoringEngine(inputs, crops, strategyMap) {
  * Get compatibility tier label based on score.
  */
 function getCompatibilityTier(score) {
-  if (score >= 0.85) return { label: 'Excellent', color: 'green' };
-  if (score >= 0.65) return { label: 'Good', color: 'lime' };
-  if (score >= 0.45) return { label: 'Moderate', color: 'yellow' };
-  if (score >= 0.25) return { label: 'Poor', color: 'orange' };
-  return { label: 'Very Poor', color: 'red' };
+  const normScore = score > 1 ? score : score * 100;
+  if (normScore >= 85) return { label: 'Optimal Match', color: '#22c55e' };
+  if (normScore >= 60) return { label: 'Moderate Fit', color: '#eab308' };
+  return { label: 'Poor Fit', color: '#ef4444' };
 }
 
 module.exports = { runScoringEngine, scoreVariable, getCompatibilityTier };
