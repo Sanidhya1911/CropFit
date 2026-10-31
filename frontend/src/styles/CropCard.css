@@ -240,7 +240,67 @@
 }
 
 /* Strategy Section */
-.strategy-section {
+.strategy-section,
+.cultivation-strategy {
+  border: 1px solid rgba(63,185,80,0.2);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(255,255,255,0.01);
+}
+
+.strat-item {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.strat-item:last-child {
+  grid-column: 1 / -1;
+  background: rgba(210,153,34,0.05);
+  border-color: rgba(210,153,34,0.2);
+}
+
+.strat-icon {
+  margin-right: 8px;
+  display: inline-block;
+  font-size: 1rem;
+}
+
+.strat-label {
+  font-weight: 600;
+  color: #9ca3af; /* text-gray-400 */
+}
+
+.strat-val {
+  color: var(--text-primary);
+}
+
+.cultivation-strategy-empty,
+.strategy-missing {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  padding: 12px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.text-gray-400 {
+  color: #9ca3af;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+/* Legacy Strategy Section */
+.strategy-section-legacy {
   border: 1px solid rgba(63,185,80,0.2);
   border-radius: var(--radius-md);
   overflow: hidden;

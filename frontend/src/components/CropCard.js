@@ -152,19 +152,23 @@ const CropCard = ({ crop, isExpanded, onToggle }) => {
               <h4 className="strategy-title">Cultivation Strategy · {strat.compatible_soil_texture} Soil</h4>
               <div className="strategy-grid">
                 <div className="strat-item">
-                  <span className="strat-label">💧 Irrigation</span>
+                  <span className="strat-icon">💧</span>
+                  <strong className="strat-label font-semibold text-gray-400">Irrigation:</strong>{' '}
                   <span className="strat-val">{strat.irrigation_method || 'Standard schedule'}</span>
                 </div>
                 <div className="strat-item">
-                  <span className="strat-label">📅 Season</span>
+                  <span className="strat-icon">📅</span>
+                  <strong className="strat-label font-semibold text-gray-400">Season:</strong>{' '}
                   <span className="strat-val">{strat.best_season || 'All season'}</span>
                 </div>
                 <div className="strat-item">
-                  <span className="strat-label">🧪 Fertilization</span>
+                  <span className="strat-icon">🧪</span>
+                  <strong className="strat-label font-semibold text-gray-400">Fertilization:</strong>{' '}
                   <span className="strat-val">{strat.fertilizer_cycle || 'Balanced NPK schedule'}</span>
                 </div>
                 <div className="strat-item">
-                  <span className="strat-label">💡 Expert Farming Tip</span>
+                  <span className="strat-icon">💡</span>
+                  <strong className="strat-label font-semibold text-gray-400">Expert Farming Tip:</strong>{' '}
                   <span className="strat-val">{strat.farming_tip || 'Monitor soil moisture regularly.'}</span>
                 </div>
               </div>
