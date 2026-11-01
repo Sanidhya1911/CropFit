@@ -17,7 +17,7 @@ let groqClient = null;
 
 function getGroqClient() {
   if (!groqClient) {
-    const apiKey = process.env.GROQ_API_KEY;
+    const apiKey = process.env.GROQ_API_KEY || process.env.GROQ_KEY || process.env.groq_key;
     if (!apiKey) {
       console.warn('⚠️ GROQ_API_KEY is not defined. Ensure it is set in your .env file.');
     }
