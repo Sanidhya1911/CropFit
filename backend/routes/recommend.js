@@ -107,6 +107,7 @@ router.post('/', validateRecommendationInput, async (req, res) => {
     return res.status(500).json({
       success: false,
       error: 'Internal server error during crop analysis',
+      message: err.message,
     });
   }
 });

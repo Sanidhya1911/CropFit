@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
     });
   } catch (err) {
     console.error('Crops fetch error:', err);
-    return res.status(500).json({ success: false, error: 'Failed to fetch crops' });
+    return res.status(500).json({ success: false, error: 'Failed to fetch crops', message: err.message });
   }
 });
 
