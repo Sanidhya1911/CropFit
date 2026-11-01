@@ -29,11 +29,32 @@ app.use('/api/recommend', recommendRoutes);
 app.use('/api/crops', cropRoutes);
 app.use('/api/rag', ragRoutes);
 
+const pool = require('./db/pool');
+
 // ─── Health Check ─────────────────────────────────────────────────────────────
-app.get('/api/health', (req, res) => {
+app.get('/api/health', async (req, res) => {
+  let dbStatus = 'disconnected';
+  let dbError = null;
+  let dbCount = 0;
+  try {
+    const r = await pool.query('SELECT count(*) FROM crop_profiles');
+    dbStatus = 'connected';
+    dbCount = parseInt(r.rows[0].count, 10);
+  } catch (e) {
+    dbStatus = 'error';
+    dbError = e.message;
+  }
+
   res.json({
     status: 'ok',
     service: 'CropFit API',
+    database: {
+      status: dbStatus,
+      error: dbError,
+      crop_count: dbCount,
+      has_database_url: !!process.env.DATABASE_URL,
+      database_url_host: process.env.DATABASE_URL ? (process.env.DATABASE_URL.split('@')[1] || '').split('/')[0] : null,
+    },
     version: '1.0.0',
     timestamp: new Date().toISOString(),
   });
@@ -47,7 +68,7 @@ app.use((req, res) => {
 // ─── Global Error Handler ─────────────────────────────────────────────────────
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
-  res.status(500).json({ success: false, error: 'Internal server error' });
+  res.status(500).json({ success: false, error: 'Internal server error', message: err.message, stack: process.env.NODE_ENV === 'production' ? err.message : err.stack });
 });
 
 // ─── Start Server ─────────────────────────────────────────────────────────────
