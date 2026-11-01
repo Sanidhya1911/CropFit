@@ -292,7 +292,7 @@ You MUST respond with a valid JSON object only with NO markdown formatting and N
     let parsedResult;
     try {
       const chatCompletion = await getGroqClient().chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
+        model: process.env.GROQ_MODEL || 'qwen/qwen3.8-27b',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: userPrompt },
