@@ -13,7 +13,7 @@ const API_BASE =
   process.env.REACT_APP_API_URL ||
   (isLocalhost
     ? 'http://localhost:5000/api'
-    : 'https://cropfit-backend.onrender.com/api');
+    : 'https://cropfit-cv2h.onrender.com/api');
 
 const api = axios.create({
   baseURL: API_BASE,
