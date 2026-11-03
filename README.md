@@ -1,4 +1,4 @@
-# CropFit: Deterministic Agronomic Intelligence
+# CropFit: Deterministic Agronomic Intelligence 
 
 > **Production-grade agro-climatic recommendation engine pairing vector search with hard deterministic algorithmic guardrails to eliminate LLM hallucinations in agricultural decision support.**
 
@@ -209,3 +209,5 @@ Executes hybrid recommendation and deterministic validation.
 1. **Hallucination-Proof Architecture**: LLM inference is strictly treated as untrusted input. The deterministic validation layer acts as a mathematical firewall, guaranteeing outputs never violate safe physical agricultural boundaries.
 2. **Sub-second Inference Latency**: Leverages Groq's Tensor Streaming Processors (LPUs) for Llama-3.3-70b inference alongside pooled PostgreSQL vector indexing, maintaining p95 API response times `< 650ms`.
 3. **Resilient Failure Modes**: Fully functional decoupled heuristic fallbacks ensure zero user-facing degradation during database pooling exhaustion or upstream LLM provider outages.
+
+LINK - https://crop-fit-five.vercel.app/
